@@ -30,3 +30,42 @@
 
 <h4>1. Import Required Libraries</h4>
 <pre><code>import os
+<h4>2. Setup Upload and Output Directories</h4>
+<pre><code>UPLOAD_FOLDER = "uploads"
+<h4>3. Function to Extract Data from PDF</h4>
+<pre><code>def extract_table_from_pdf(pdf_path, output_excel):</code></pre>
+<p>- Opens the PDF using `pdfplumber`.</p>
+<p>- Reads each page and extracts text.</p>
+<p>- Uses regular expressions to detect `key: value` patterns.</p>
+<p>- Converts the extracted data into a DataFrame and saves it as an Excel file.</p>
+
+<h4>4. Flask Routes</h4>
+<pre><code>@app.route("/", methods=["GET", "POST"])
+<h4>5. Running the Flask Application</h4>
+<pre><code>if __name__ == "__main__":
+port = int(os.environ.get("PORT", 5001))
+app.run(debug=True, port=port)</code></pre>
+<p>- Starts the Flask application on port `5001`.</p>
+<p>- Supports dynamic port assignment using environment variables.</p>
+
+<h2>Usage Instructions</h2>
+<ol>
+    <li>Open the application in a web browser.</li>
+    <li>Upload a system-generated PDF containing structured text data.</li>
+    <li>Click the <strong>Transform</strong> button.</li>
+    <li>Download the generated Excel file containing extracted tables.</li>
+</ol>
+
+<h2>Limitations</h2>
+<ul>
+    <li>Only works with text-based PDFs (not scanned images).</li>
+    <li>Requires a structured `key: value` format in the PDF.</li>
+    <li>May not extract complex tables accurately.</li>
+</ul>
+
+<h2>Future Enhancements</h2>
+<ul>
+    <li>Improve table detection for irregular structures.</li>
+    <li>Support multiple table formats within a single PDF.</li>
+    <li>Enhance error handling for better user experience.</li>
+</ul>
