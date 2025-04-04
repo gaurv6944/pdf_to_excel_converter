@@ -40,7 +40,7 @@ app.py
 
 This script initializes the Flask web application, sets up file upload directories, and handles PDF processing.
 
-<h3>1. Import Required Libraries<h3>
+<h3>1. Import Required Libraries</h3>
 
 import os
 import re
