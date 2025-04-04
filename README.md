@@ -1,10 +1,10 @@
 <h1>Flask PDF to Excel Converter</h1>
 
-Overview
+<h2>Overview</h2>
 
 This project is a Flask-based web application that allows users to upload a system-generated PDF file containing structured text. The app extracts table-like data from the PDF based on a key-value pattern and saves it into an Excel file for download.
 
-Features
+<h2>Features</h2>
 
 Upload PDF files containing structured tabular data.
 
@@ -14,15 +14,15 @@ Save extracted data into an Excel file.
 
 Provide a downloadable link for the processed Excel file.
 
-Installation and Setup
+<h2>Installation and Setup</h2>
 
-Prerequisites
+<h3>Prerequisites</h3>
 
 Ensure you have Python 3 installed on your system. Install the required dependencies using:
 
 pip install flask pdfplumber pandas openpyxl
 
-Running the Application
+<h3>Running the Application</h3>
 
 Clone or download the project.
 
@@ -34,13 +34,13 @@ python app.py
 
 Open a web browser and go to http://127.0.0.1:5001.
 
-Code Explanation
+<h2>Code Explanation</h2>
 
 app.py
 
 This script initializes the Flask web application, sets up file upload directories, and handles PDF processing.
 
-1. Import Required Libraries
+<h3>1. Import Required Libraries<h3>
 
 import os
 import re
@@ -58,7 +58,7 @@ pandas - Converts extracted data into a structured format.
 
 flask - Provides the web application framework.
 
-2. Setup Upload and Output Directories
+<h3>2. Setup Upload and Output Directories</h3>
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
@@ -67,7 +67,7 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 Creates folders to store uploaded PDFs and output Excel files if they don’t exist.
 
-3. Function to Extract Data from PDF
+<h3>3. Function to Extract Data from PDF</h3>
 
 def extract_table_from_pdf(pdf_path, output_excel):
 
@@ -79,7 +79,7 @@ Uses regular expressions to detect key: value patterns.
 
 Converts the extracted data into a DataFrame and saves it as an Excel file.
 
-4. Flask Routes
+<h4>4. Flask Routes</h4>
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -94,7 +94,7 @@ Calls extract_table_from_pdf() to process the file.
 
 If successful, the processed Excel file is sent back as a downloadable file.
 
-5. Running the Flask Application
+<h5>5. Running the Flask Application</h5>
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
@@ -104,7 +104,7 @@ Starts the Flask application on port 5001.
 
 Supports dynamic port assignment using environment variables.
 
-Usage Instructions
+<h2>Usage Instructions</h2>
 
 Open the application in a web browser.
 
@@ -114,7 +114,7 @@ Click the Transform button.
 
 Download the generated Excel file containing extracted tables.
 
-Limitations
+<h2>Limitations</h2>
 
 Only works with text-based PDFs (not scanned images).
 
@@ -122,7 +122,7 @@ Requires a structured key: value format in the PDF.
 
 May not extract complex tables accurately.
 
-Future Enhancements
+<h2>Future Enhancements</h2>
 
 Improve table detection for irregular structures.
 
