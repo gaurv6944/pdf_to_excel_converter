@@ -27,3 +27,33 @@
 <h3>app.py</h3>
 <h4>1. Import Libraries</h4>
 <pre><code>import os, re, pdfplumber, pandas as pd
+
+
+<h4>2. Setup Directories</h4>
+<pre><code>UPLOAD_FOLDER = "uploads"
+
+<h4>5. Running the Flask App</h4>
+<pre><code>if __name__ == "__main__":
+app.run(debug=True, port=5001)</code></pre>
+
+<h2>Usage</h2>
+<ol>
+    <li>Open the web app.</li>
+    <li>Upload a structured PDF file.</li>
+    <li>Click <strong>Transform</strong> to extract tables.</li>
+    <li>Download the generated Excel file.</li>
+</ol>
+
+<h2>Limitations</h2>
+<ul>
+    <li>Only works with text-based PDFs.</li>
+    <li>Requires structured `key: value` format.</li>
+    <li>May not handle complex tables perfectly.</li>
+</ul>
+
+<h2>Future Enhancements</h2>
+<ul>
+    <li>Improve irregular table detection.</li>
+    <li>Support multiple table formats.</li>
+    <li>Enhance error handling.</li>
+</ul>
