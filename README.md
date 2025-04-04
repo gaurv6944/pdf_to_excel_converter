@@ -84,7 +84,7 @@ The data format in the PDF must follow key: value pairs for accurate extraction.
 
 May struggle with complex tables that do not have a structured format.
 
-<h2<Future Enhancements</h2>
+<h2>Future Enhancements</h2>
 Improve table detection for PDFs with irregular structures.
 
 Support multiple table formats (e.g., column-based tables).
