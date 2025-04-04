@@ -1,132 +1,92 @@
- <!DOCTYPE html>
-<html>
-<head>
-    <title>Flask PDF to Excel Converter - README</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; }
-        h2, h3, h4 { color: #333; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        code { font-family: Consolas, monospace; color: #d63384; }
-    </style>
-</head>
-<body>
+ <h2>1. Install Required Dependencies</h2>
+Ensure you have Python 3 installed on your system. Install the required dependencies using the following command:
 
-    <h2>Flask PDF to Excel Converter</h2>
+sh
+Copy
+Edit
+pip install flask pdfplumber pandas openpyxl
+<h2>2. Set Up the Project Structure</h2>
+Create a folder for your project and inside it, ensure you have:
 
-    <h2>Overview</h2>
-    <p>This Flask-based web application allows users to upload a PDF containing structured tabular data. It extracts key-value pairs and saves them in an Excel file.</p>
+app.py (Main Flask application)
 
-    <h2>Features</h2>
-    <ul>
-        <li>Upload PDF files containing structured tables.</li>
-        <li>Extract key-value pairs using regex.</li>
-        <li>Convert extracted data into an Excel file.</li>
-        <li>Download the generated Excel file.</li>
-    </ul>
+templates/index.html (HTML template for the UI)
 
-    <h2>Installation & Setup</h2>
-    <h3>Prerequisites</h3>
-    <p>Ensure Python 3 is installed. Install dependencies:</p>
-    <pre><code>pip install flask pdfplumber pandas openpyxl</code></pre>
+uploads/ (Directory to store uploaded PDFs)
 
-    <h3>Running the Application</h3>
-    <ol>
-        <li>Clone or download the project.</li>
-        <li>Navigate to the directory and run:
-            <pre><code>python app.py</code></pre>
-        </li>
-        <li>Open <code>http://127.0.0.1:5001</code> in a browser.</li>
-    </ol>
+outputs/ (Directory to store extracted Excel files)
 
-    <h2>Code Explanation</h2>
+<h2>3. Run the Flask Application</h2>
+Navigate to the project directory in your terminal or command prompt and run:
 
-    <h3>1. Import Required Libraries</h3>
-    <pre><code>import os
-import re
-import pdfplumber
-import pandas as pd
-from flask import Flask, render_template, request, send_file</code></pre>
+sh
+Copy
+Edit
+python app.py
+This starts the Flask web server on http://127.0.0.1:5001.
 
-    <h3>2. Setup Flask App and Directories</h3>
-    <pre><code>app = Flask(__name__)
-UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "outputs"
+<h2>4. Access the Web Application</h2>
+Open a web browser and go to:
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)</code></pre>
+cpp
+Copy
+Edit
+http://127.0.0.1:5001
+<h2>5. Upload a PDF File</h2>
+Click on the "Choose File" button.
 
-    <h3>3. Function to Extract Tables from PDF</h3>
-    <pre><code>def extract_table_from_pdf(pdf_path, output_excel):
-    extracted_data = []
-    try:
-        with pdfplumber.open(pdf_path) as pdf:
-            for i, page in enumerate(pdf.pages):
-                text = page.extract_text()
-                if not text:
-                    continue
-                lines = text.split("\n")
-                table_data = {}
-                for line in lines:
-                    match = re.match(r"([\w\s]+)\s+:\s+(.+)", line)
-                    if match:
-                        key, value = match.groups()
-                        table_data[key.strip()] = value.strip()
-                if table_data:
-                    extracted_data.append(table_data)
-        if extracted_data:
-            df = pd.DataFrame(extracted_data)
-            df.to_excel(output_excel, index=False)
-            return True
-        return False
-    except Exception as e:
-        print(f"Error extracting table: {e}")
-        return False</code></pre>
+Select a structured PDF file (must contain key: value format data).
 
-    <h3>4. Flask Route to Handle File Uploads</h3>
-    <pre><code>@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        if "file" not in request.files:
-            return "No file uploaded", 400
-        file = request.files["file"]
-        if file.filename == "":
-            return "No selected file", 400
-        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-        file.save(file_path)
-        output_excel = os.path.join(OUTPUT_FOLDER, "extracted_data.xlsx")
-        success = extract_table_from_pdf(file_path, output_excel)
-        if success:
-            return send_file(output_excel, as_attachment=True)
-        else:
-            return "No structured data found in the PDF", 400
-    return render_template("index.html")</code></pre>
+Click "Transform" to process the file.
 
-    <h3>5. Running the Flask App</h3>
-    <pre><code>if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5001))
-    app.run(debug=True, port=port)</code></pre>
+<h2>6. Extract and Download Data</h2>
+The application will extract the structured data from the PDF.
 
-    <h2>Usage</h2>
-    <ol>
-        <li>Open the web app.</li>
-        <li>Upload a structured PDF file.</li>
-        <li>Click <strong>Transform</strong> to extract tables.</li>
-        <li>Download the generated Excel file.</li>
-    </ol>
+If successful, it will provide a download link for the Excel file.
 
-    <h2>Limitations</h2>
-    <ul>
-        <li>Only works with text-based PDFs.</li>
-        <li>Requires structured <code>key: value</code> format.</li>
-        <li>May not handle complex tables perfectly.</li>
-    </ul>
+Click on the download link to save the Excel file to your computer.
 
-    <h2>Future Enhancements</h2>
-    <ul>
-        <li>Improve irregular table detection.</li>
-        <li>Support multiple table formats.</li>
-        <li>Enhance error handling.</li>
-    </ul>
+<h2>7. Check the Output</h2>
+The extracted data is saved as an Excel file (extracted_data.xlsx) inside the outputs/ directory.
 
-</body>
-</html>
+Open the file using Microsoft Excel or Google Sheets.
+
+<h2>8. Stop the Flask Server</h2>
+To stop the running server, go back to the terminal where Flask is running and press:
+
+objectivec
+Copy
+Edit
+CTRL + C
+<h2>Understanding the Code Execution Flow</h2>
+Flask initializes the app and sets up the necessary directories (uploads/ and outputs/).
+
+The user uploads a PDF file through the web interface.
+
+The file is saved in the uploads/ directory.
+
+extract_table_from_pdf() function processes the file:
+
+Reads the PDF text using pdfplumber.
+
+Uses regex matching to extract key: value pairs.
+
+Converts the extracted data into an Excel file.
+
+If the extraction is successful, the Excel file is made available for download.
+
+If no structured data is found, an error message is displayed.
+
+<h2>Limitations</h2>
+This application only works with text-based PDFs (not scanned images).
+
+The data format in the PDF must follow key: value pairs for accurate extraction.
+
+May struggle with complex tables that do not have a structured format.
+
+Future Enhancements
+Improve table detection for PDFs with irregular structures.
+
+Support multiple table formats (e.g., column-based tables).
+
+Better error handling to avoid failures in certain PDF formats.
